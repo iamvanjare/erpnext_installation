@@ -185,6 +185,58 @@ Now press (Ctrl-X) to exit
 #### if js and css file is not loading on login window run the following command
 
     sudo chmod o+x /home/cliconsys-frappe
+       
+    
+#### Production Setup
+
+Supervisor
+
+      bench setup supervisor
+      sudo ln -s `pwd`/config/supervisor.conf /etc/supervisor/conf.d/frappe-bench.conf
+
+Nginx 
+
+      bench setup nginx
+      sudo ln -s `pwd`/config/nginx.conf /etc/nginx/conf.d/frappe-bench.conf
+
+#### SSL Setup
+
+      bench setup add-domain --site site1.local [your.domain.here]
+
+      bench setup nginx
+
+      sudo service nginx reload
+
+And when it comes the certbot guide, I have not found any that work as well as the use of snapd to handle all of the complicated settings so I don’t have to deal with them. Here is the short version of using snapd to install certbot and get your ssl certificate:
+
+First we need to make sure that ‘certbot’ is not already installed, so we will attempt to remove it just in case
+
+      sudo apt-get remove certbot
+
+Now we are going to install the package bundle provider and make sure it is all up-to-date with the latest release of ‘snapd’ and let it handle the certbot for us
+      
+      sudo apt install snapd
+      sudo snap install core
+      sudo snap refresh core
+
+Now we use ‘snap’ service to automatically install and configure certbot to work perfectly with your new ERPNext server
+      
+      sudo snap install --classic certbot
+      sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+Now we can safely use the pre-configured certbot to install your SSL certificate
+      
+      sudo certbot --nginx
+
+
+#### Bench Upgrade 5.16
+      
+      pip3 install --upgrade frappe-bench
+    
+
+#### Indian Compilation
+      
+      bench get-app --branch version-14 https://github.com/resilient-tech/india-compliance.git
     
     
 
