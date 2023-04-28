@@ -180,7 +180,7 @@ Now press (Ctrl-X) to exit
 
 #### If bench restart is not worked run the following command again with all Questions Yes
     
-    sudo bench setup production dcode-frappe
+    sudo bench setup production cliconsys-frappe
     
 #### if js and css file is not loading on login window run the following command
 
